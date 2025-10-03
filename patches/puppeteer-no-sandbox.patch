@@ -1,0 +1,10 @@
+@@ -195,7 +195,8 @@
+      * but still works. In Puppeteer v22, it uses the `chrome-headless-shell` package,
+      * which is much faster than the regular headless mode.
+      */
+-    headless: 'shell'
++    headless: 'shell',
++    args: ['--no-sandbox']
+   })
+   if (puppeteerConfigFile) {
+     checkConfigFile(puppeteerConfigFile)

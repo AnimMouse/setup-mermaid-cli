@@ -37,6 +37,12 @@ runs:
       env:
         version: ${{ steps.version.outputs.version }}
         
+    - name: Patch mermaid-cli
+      if: '! steps.cache.outputs.cache-hit'
+      shell: bash
+      working-directory: ${{ runner.temp }}
+      run: $GITHUB_ACTION_PATH/scripts/patch.sh
+      
     - name: Install mermaid-cli on tool cache
       uses: AnimMouse/tool-cache@v1
       with:
