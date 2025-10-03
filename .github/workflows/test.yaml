@@ -6,6 +6,7 @@ on:
     paths:
       - action.yaml
       - scripts/**
+      - patches/**
       - .github/workflows/test.yaml
   schedule:
     - cron: '7 11 1 * *'
@@ -27,3 +28,24 @@ jobs:
           
       - name: Test mermaid-cli by checking version
         run: mmdc --version
+        
+      - name: Create test flowchart in mermaid
+        run: |
+          cat > test_flowchart.mermaid << EOL
+          flowchart TD
+            A[Christmas] -->|Get money| B(Go shopping)
+            B --> C{Let me think}
+            C -->|One| D[Laptop]
+            C -->|Two| E[iPhone]
+            C -->|Three| F[fa:fa-car Car]
+          EOL
+          
+      - name: Test mermaid-cli by converting mermaid to PNG
+        run: mmdc -i test_flowchart.mermaid -o test_flowchart.png
+        
+      - name: Upload test flowchart
+        uses: actions/upload-artifact@v4
+        with:
+          name: mermaid-cli test flowchart ${{ runner.os }}
+          path: test_flowchart.png
+          if-no-files-found: error
