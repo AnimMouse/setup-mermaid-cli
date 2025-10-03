@@ -29,8 +29,15 @@ runs:
         path: ${{ runner.tool_cache }}/mermaid-cli
         key: mermaid-cli-${{ steps.version.outputs.version }}-${{ runner.os }}
         
+    - name: Restore mermaid-cli puppeteer cache
+      id: cache-puppeteer
+      uses: actions/cache/restore@v4
+      with:
+        path: /home/runner/.cache/puppeteer
+        key: mermaid-cli-puppeteer-${{ steps.version.outputs.version }}-${{ runner.os }}
+        
     - name: Download mermaid-cli
-      if: '! steps.cache.outputs.cache-hit'
+      if: '! steps.cache.outputs.cache-hit || ! steps.cache-puppeteer.outputs.cache-hit'
       shell: bash
       working-directory: ${{ runner.temp }}
       run: $GITHUB_ACTION_PATH/scripts/download.sh
@@ -38,7 +45,7 @@ runs:
         version: ${{ steps.version.outputs.version }}
         
     - name: Patch mermaid-cli
-      if: '! steps.cache.outputs.cache-hit'
+      if: '! steps.cache.outputs.cache-hit || ! steps.cache-puppeteer.outputs.cache-hit'
       shell: bash
       working-directory: ${{ runner.temp }}
       run: $GITHUB_ACTION_PATH/scripts/patch.sh
@@ -55,6 +62,13 @@ runs:
       with:
         path: ${{ runner.tool_cache }}/mermaid-cli
         key: mermaid-cli-${{ steps.version.outputs.version }}-${{ runner.os }}
+        
+    - name: Save mermaid-cli puppeteer cache
+      if: '! steps.cache-puppeteer.outputs.cache-hit'
+      uses: actions/cache/save@v4
+      with:
+        path: /home/runner/.cache/puppeteer
+        key: mermaid-cli-puppeteer-${{ steps.version.outputs.version }}-${{ runner.os }}
         
     - name: Symlink mmdc on tool cache
       shell: bash
