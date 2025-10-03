@@ -1,0 +1,29 @@
+name: Test setup-mermaid-cli
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - action.yaml
+      - scripts/**
+      - .github/workflows/test.yaml
+  schedule:
+    - cron: '7 11 1 * *'
+  workflow_dispatch:
+  
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        version: [latest, "${{ vars.SPECIFIED_VERSION }}"]
+        
+    steps:
+      - name: Setup mermaid-cli using setup-mermaid-cli
+        uses: AnimMouse/setup-mermaid-cli@main
+        with:
+          version: ${{ matrix.version }}
+          
+      - name: Test mermaid-cli by checking version
+        run: mmdc --version
