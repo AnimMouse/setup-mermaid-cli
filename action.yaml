@@ -34,7 +34,7 @@ runs:
       uses: actions/cache/restore@v4
       with:
         path: /home/runner/.cache/puppeteer
-        key: mermaid-cli-puppeteer-${{ steps.version.outputs.version }}-${{ runner.os }}
+        key: mermaid-cli-${{ steps.version.outputs.version }}-puppeteer-${{ runner.os }}
         
     - name: Download mermaid-cli
       if: '! steps.cache.outputs.cache-hit || ! steps.cache-puppeteer.outputs.cache-hit'
@@ -68,7 +68,7 @@ runs:
       uses: actions/cache/save@v4
       with:
         path: /home/runner/.cache/puppeteer
-        key: mermaid-cli-puppeteer-${{ steps.version.outputs.version }}-${{ runner.os }}
+        key: mermaid-cli-${{ steps.version.outputs.version }}-puppeteer-${{ runner.os }}
         
     - name: Symlink mmdc on tool cache
       shell: bash
