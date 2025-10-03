@@ -18,6 +18,8 @@ steps:
   - run: mmdc -i input.mermaid -o output.png
 ```
 
+This action automatically patches `mmdc` to run Puppeteer in [`--no-sandbox` mode](https://github.com/mermaid-js/mermaid-cli/blob/master/docs/linux-sandbox-issue.md).
+
 ### Specific version
 You can specify the version you want. By default, this action downloads the latest version if the version is not specified.
 
