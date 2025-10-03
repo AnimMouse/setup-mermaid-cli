@@ -1,9 +1,11 @@
 # Setup mermaid-cli for GitHub Actions
-Setup [mermaid-cli]() on GitHub Actions to use `mmdc`.
+Setup [mermaid-cli](https://github.com/mermaid-js/mermaid-cli) on GitHub Actions to use `mmdc`.
 
 This action installs mermaid-cli for use in actions by installing it on tool cache using [AnimMouse/tool-cache](https://github.com/AnimMouse/tool-cache).
 
 This action is implemented as a [composite](https://docs.github.com/en/actions/creating-actions/creating-a-composite-action) action.
+
+This action currently only works on Ubuntu.
 
 ## Usage
 To use `mmdc`, run this action before `mmdc`.
